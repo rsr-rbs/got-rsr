@@ -9,14 +9,11 @@ It is made of getters and setters that provide fast option normalization and val
 
 #### Merge behavior explained
 
-When an option is already set, there are a few possible scenarios that can happen:
-
-- `replace` - fully replaces the value,
-- `override` - used when merging objects; overrides existing keys.
+When an option is already set, setting it again will override it entirely by default.\
+Otherwise the merge behavior is documented in the correspoding section for the option.
 
 ### `url`
 
-Merge behavior: `replace`\
 Type: <code>string | [URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)</code>
 
 The URL to request. Usually the `url` represents a [WHATWG URL](https://url.spec.whatwg.org/#url-class).
@@ -31,17 +28,16 @@ await got('https://httpbin.org/anything');
 await got(new URL('https://httpbin.org/anything'));
 ```
 
-**Note:**
-- Throws if no protocol specified.
+> **Note:**
+> - Throws if no protocol specified.
 
-**Note:**
-- If `url` is a string, then the `query` string will **not** be parsed as search params.\
-  This is in accordance to [the specification](https://datatracker.ietf.org/doc/html/rfc7230#section-2.7).\
-  If you want to pass search params instead, use the `searchParams` option below.
+> **Note:**
+> - If `url` is a string, then the `query` string will **not** be parsed as search params.\
+>  This is in accordance to [the specification](https://datatracker.ietf.org/doc/html/rfc7230#section-2.7).\
+>  If you want to pass search params instead, use the `searchParams` option below.
 
 ### `searchParams`
 
-Merge behavior: `override`\
 Type: <code>string | [URLSearchParams](https://nodejs.org/api/url.html#url_class_urlsearchparams) | object&lt;string, [Primitive](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)&gt;</code>
 
 [WHATWG URL Search Params](https://url.spec.whatwg.org/#interface-urlsearchparams) to be added to the request URL.
@@ -73,16 +69,18 @@ console.log(searchParams.toString());
 //=> 'key=a&key=b'
 ```
 
-**Note:**
-- This will override the `query` string in `url`.
+> **Note:**
+> - This will override the `query` string in `url`.
 
-**Note:**
-- Leading slashes are disallowed to enforce consistency and avoid confusion.\
-  For example, when the prefix URL is `https://example.com/foo` and the input is `/bar`, there's ambiguity whether the resulting URL would become `https://example.com/foo/bar` or `https://example.com/bar`. The latter is used by browsers.
+> **Note:**
+> - Leading slashes are disallowed to enforce consistency and avoid confusion.\
+>  For example, when the prefix URL is `https://example.com/foo` and the input is `/bar`, there's ambiguity whether the resulting URL would become `https://example.com/foo/bar` or `https://example.com/bar`. The latter is used by browsers.
+
+> **Merge behavior:**
+> - Overrides existing properties.
 
 ### `prefixUrl`
 
-Merge behavior: `replace`\
 Type: `string`\
 Default: `''`
 
@@ -99,18 +97,17 @@ await instance('anything');
 await got('https://httpbin.org/anything');
 ```
 
-**Note:**
-- `prefixUrl` is ignored when `url` is an instance of [`URL`](https://nodejs.org/api/url.html#url_the_whatwg_url_api).
+> **Note:**
+> - `prefixUrl` is ignored when `url` is an instance of [`URL`](https://nodejs.org/api/url.html#url_the_whatwg_url_api).
 
-**Note:**
-- Changing `prefixUrl` also updates the `url` option if set.
+> **Note:**
+> - Changing `prefixUrl` also updates the `url` option if set.
 
-**Note:**
-- If you're passing an absolute URL as string `url`, you need to set `prefixUrl` to an empty string.
+> **Note:**
+> - If you're passing an absolute URL as string `url`, you need to set `prefixUrl` to an empty string.
 
 ### `method`
 
-Merge behavior: `replace`\
 Type: `string`\
 Default: `GET`
 
@@ -128,7 +125,6 @@ console.log(method);
 
 ### `headers`
 
-Merge behavior: `override`\
 Type: `object<string, string>`\
 Default: `{}`
 
@@ -145,9 +141,11 @@ console.log(method);
 // => {hello: 'world'}
 ```
 
+> **Merge behavior:**
+> - Overrides existing properties.
+
 ### `isStream`
 
-Merge behavior: `replace`\
 Type: `boolean`\
 Default: `false`
 
@@ -168,7 +166,6 @@ stream.on('data', console.log);
 
 ### `body`
 
-Merge behavior: `replace`\
 Type: `string | Buffer | stream.Readable` or [`form-data` instance](https://github.com/form-data/form-data)
 
 The payload to send.
@@ -188,18 +185,17 @@ console.log(data);
 //=> 'Hello, world!'
 ```
 
-**Note:**
-- If `body` is specified, then the `json` or `form` option cannot be used.
+> **Note:**
+> - If `body` is specified, then the `json` or `form` option cannot be used.
 
-**Note:**
-- If you use this option, `got.stream()` will be read-only.
+> **Note:**
+> - If you use this option, `got.stream()` will be read-only.
 
-**Note:**
-- Passing `body` with `GET` will throw unless the [`allowGetBody` option](#allowGetBody) is set to `true`.
+> **Note:**
+> - Passing `body` with `GET` will throw unless the [`allowGetBody` option](#allowGetBody) is set to `true`.
 
 ### `json`
 
-Merge behavior: `replace`\
 Type: JSON-serializable values
 
 JSON body. If set, the `content-type` header defaults to `application/json`.
@@ -219,7 +215,6 @@ console.log(data);
 
 ### `form`
 
-Merge behavior: `replace`\
 Type: <code>object&lt;string, [Primitve](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)&gt;</code>
 
 The form body is converted to a query string using `(new URLSearchParams(form)).toString()`.
@@ -241,7 +236,6 @@ console.log(data);
 
 ### `parseJson`
 
-Merge behavior: `replace`\
 Type: `(text: string) => unknown`\
 Default: `(text: string) => JSON.parse(text)`
 
@@ -261,7 +255,6 @@ console.log(parsed);
 
 ### `stringifyJson`
 
-Merge behavior: `replace`\
 Type: `(object: unknown) => string`\
 Default: `(object: unknown) => JSON.stringify(object)`
 
@@ -309,7 +302,6 @@ await got.post('https://example.com', {
 
 ### `allowGetBody`
 
-Merge behavior: `replace`\
 Type: `boolean`\
 Default: `false`
 
@@ -321,29 +313,32 @@ However, the [HTTP/2 specification](https://datatracker.ietf.org/doc/html/rfc754
 
 Therefore this option has no effect when using HTTP/2.
 
-**Note:**
-- This option is only meant to interact with non-compliant servers when you have no other choice.
+> **Note:**
+> - This option is only meant to interact with non-compliant servers when you have no other choice.
 
-**Note:**
-- The [RFC 7321](https://tools.ietf.org/html/rfc7231#section-4.3.1) doesn't specify any particular behavior for the GET method having a payload, therefore it's considered an [**anti-pattern**](https://en.wikipedia.org/wiki/Anti-pattern).
+> **Note:**
+> - The [RFC 7321](https://tools.ietf.org/html/rfc7231#section-4.3.1) doesn't specify any particular behavior for the GET method having a payload, therefore it's considered an [**anti-pattern**](https://en.wikipedia.org/wiki/Anti-pattern).
 
 ### `timeout`
 
-Merge behavior: `override`\
 Type: `object`
 
 See the [Timeout API](timeout.md).
 
+> **Merge behavior:**
+> - Overrides existing properties.
+
 ### `retry`
 
-Merge behavior: `override`\
 Type: `object`
 
 See the [Retry API](retry.md).
 
+> **Merge behavior:**
+> - Overrides existing properties.
+
 ### `encoding`
 
-Merge behavior: `replace`\
 Type: `string`\
 Default: `utf8`
 
@@ -362,8 +357,8 @@ console.log(response);
 //=> base64 string
 ```
 
-**Note:**
-- This option does not affect streams! Instead, do:
+> **Note:**
+> - This option does not affect streams! Instead, do:
 
 ```js
 import got from 'got';
@@ -376,7 +371,6 @@ stream.on('data', console.log);
 
 ### `responseType`
 
-Merge behavior: `replace`\
 Type: `'text' | 'json' | 'buffer'`\
 Default: `'text'`
 
@@ -398,16 +392,15 @@ const [response, buffer, json] = await Promise.all([responsePromise, bufferPromi
 // `json` is an object
 ```
 
-**Note:**
-- When using streams, this option is ignored.
+> **Note:**
+> - When using streams, this option is ignored.
 
-**Note:**
-- `'buffer'` will return the raw body buffer. Any modifications will also alter the result of `.text()` and `.json()`. Before overwriting the buffer, please copy it first via `Buffer.from(buffer)`.\
-  See https://github.com/nodejs/node/issues/27080
+> **Note:**
+> - `'buffer'` will return the raw body buffer. Any modifications will also alter the result of `.text()` and `.json()`. Before overwriting the buffer, please copy it first via `Buffer.from(buffer)`.\
+>  See https://github.com/nodejs/node/issues/27080
 
 ### `resolveBodyOnly`
 
-Merge behavior: `replace`\
 Type: `boolean`\
 Default: `false`
 
@@ -427,7 +420,6 @@ const body = await got(url, {responseType: 'json', resolveBodyOnly: true});
 
 ### `context`
 
-Merge behavior: `override`\
 Type: `object<string, unknown>`\
 Default: `{}`
 
@@ -482,9 +474,11 @@ console.log(instance.defaults.options.context);
 //=> {}
 ```
 
+> **Merge behavior:**
+> - Overrides existing properties.
+
 ### `cookieJar`
 
-Merge behavior: `replace`\
 Type: <code>object | [tough.cookieJar](https://github.com/salesforce/tough-cookie#cookiejar)</code>
 
 **Note:**
@@ -518,27 +512,25 @@ See [ToughCookie API](https://github.com/salesforce/tough-cookie#getcookiestring
 
 ### `ignoreInvalidCookies`
 
-Merge behavior: `replace`\
 Type: `boolean`\
 Default: `false`
 
 Ignore invalid cookies instead of throwing an error.\
 Only useful when the cookieJar option has been set.
 
-**Note:**
-- This is not recommended! Use at your own risk.
+> **Note:**
+> - This is not recommended! Use at your own risk.
 
 ### `followRedirect`
 
-Merge behavior: `replace`\
 Type: `boolean`\
 Default: `true`
 
 Defines if redirect responses should be followed automatically.
 
-**Note:**
-- If a `303` is sent by the server in response to any request type (POST, DELETE, etc.), Got will automatically request the resource pointed to in the location header via GET.\
-  This is in accordance with [the spec](https://tools.ietf.org/html/rfc7231#section-6.4.4).
+> **Note:**
+> - If a `303` is sent by the server in response to any request type (POST, DELETE, etc.), Got will automatically request the resource pointed to in the location header via GET.\
+>  This is in accordance with [the spec](https://tools.ietf.org/html/rfc7231#section-6.4.4).
 
 ```js
 import got from 'got';
@@ -553,7 +545,6 @@ console.log(response.headers.location);
 
 ### `maxRedirects`
 
-Merge behavior: `replace`\
 Type: `number`\
 Default: `10`
 
@@ -567,7 +558,6 @@ const instance = got.extend({maxRedirect: 3});
 
 ### `decompress`
 
-Merge behavior: `replace`\
 Type: `boolean`\
 Default: `true`
 
