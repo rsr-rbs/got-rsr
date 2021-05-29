@@ -12,6 +12,26 @@ It is made of getters and setters that provide fast option normalization and val
 When an option is already set, setting it again will replace it with a deep clone by default.\
 Otherwise the merge behavior is documented in the correspoding section for the option.
 
+#### How to store options
+
+Got exports an `Options` class. Instead of calling `got`, just call `new Options(…)` with the same arguments.
+
+```js
+import got, {Options} from 'got';
+
+const options = new Options({
+	prefixUrl: 'https://httpbin.org',
+	headers: {
+		foo: 'bar'
+	}
+});
+
+// Note that `Options` stores normalized options, therefore it needs to be passed as the third argument.
+const {headers} = await got('anything', undefined, options).json();
+console.log(headers.Foo);
+//=> 'bar'
+```
+
 ### `url`
 
 **Type: <code>string | [URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)</code>**
