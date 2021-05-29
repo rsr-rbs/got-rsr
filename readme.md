@@ -164,7 +164,7 @@ $ npm install got
 \* It's almost API compatible with the browser `fetch` API.\
 \*\* Need to switch the protocol manually. Doesn't accept PUSH streams and doesn't reuse HTTP/2 sessions.\
 \*\*\* Currently, only `DownloadProgress` event is supported, `UploadProgress` event is not supported.\
-¹ Requires Node.js 15.10.0 or above.
+¹ Requires Node.js 15.10.0 or above.\
 :sparkle: Almost-stable feature, but the API may change. Don't hesitate to try it out!\
 :grey_question: Feature in early stage of development. Very experimental.
 
@@ -236,15 +236,15 @@ $ npm install got
 [s4]: https://codecov.io/gh/visionmedia/superagent
 
 <!-- BUILD -->
-[gb]: https://badgen.net/travis/sindresorhus/got?label
-[kb]: https://badgen.net/travis/sindresorhus/ky?label
+[gb]: https://github.com/sindresorhus/got/actions/workflows/main.yml/badge.svg
+[kb]: https://github.com/sindresorhus/ky/actions/workflows/main.yml/badge.svg
 [rb]: https://badgen.net/travis/request/request?label
 [nb]: https://badgen.net/travis/bitinn/node-fetch?label
 [ab]: https://badgen.net/travis/axios/axios?label
 [sb]: https://badgen.net/travis/visionmedia/superagent?label
 
-[g5]: https://travis-ci.com/github/sindresorhus/got
-[k5]: https://travis-ci.com/github/sindresorhus/ky
+[g5]: https://github.com/sindresorhus/got/actions/workflows/main.yml
+[k5]: https://github.com/sindresorhus/ky/actions/workflows/main.yml
 [r5]: https://travis-ci.org/github/request/request
 [n5]: https://travis-ci.org/github/bitinn/node-fetch
 [a5]: https://travis-ci.org/github/axios/axios
