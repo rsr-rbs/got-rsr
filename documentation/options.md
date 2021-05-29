@@ -28,10 +28,10 @@ await got('https://httpbin.org/anything');
 await got(new URL('https://httpbin.org/anything'));
 ```
 
-> <a>**Note:**</a>
+> <a id="url-note-1">**Note:**</a>
 > - Throws if no protocol specified.
 
-> **Note:**
+> <a id="url-note-2">**Note:**</a>
 > - If `url` is a string, then the `query` string will **not** be parsed as search params.\
 >  This is in accordance to [the specification](https://datatracker.ietf.org/doc/html/rfc7230#section-2.7).\
 >  If you want to pass search params instead, use the `searchParams` option below.
