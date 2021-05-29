@@ -28,7 +28,7 @@ await got('https://httpbin.org/anything');
 await got(new URL('https://httpbin.org/anything'));
 ```
 
-> <a id="url-note-1">**Note:**</a>
+<a>**Note:**</a>
 > - Throws if no protocol specified.
 
 > <a id="url-note-2">**Note:**</a>
