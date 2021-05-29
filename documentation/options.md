@@ -14,7 +14,7 @@ Otherwise the merge behavior is documented in the correspoding section for the o
 
 ### `url`
 
-Type: <code>string | [URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)</code>
+**Type: <code>string | [URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)</code>**
 
 The URL to request. Usually the `url` represents a [WHATWG URL](https://url.spec.whatwg.org/#url-class).
 
@@ -38,7 +38,7 @@ await got(new URL('https://httpbin.org/anything'));
 
 ### `searchParams`
 
-Type: <code>string | [URLSearchParams](https://nodejs.org/api/url.html#url_class_urlsearchparams) | object&lt;string, [Primitive](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)&gt;</code>
+**Type: <code>string | [URLSearchParams](https://nodejs.org/api/url.html#url_class_urlsearchparams) | object&lt;string, [Primitive](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)&gt;</code>**
 
 [WHATWG URL Search Params](https://url.spec.whatwg.org/#interface-urlsearchparams) to be added to the request URL.
 
@@ -81,8 +81,8 @@ console.log(searchParams.toString());
 
 ### `prefixUrl`
 
-Type: `string`\
-Default: `''`
+**Type: `string`**\
+**Default: `''`**
 
 The string to be prepended to `url`. Usually this is an [absolute URL](https://url.spec.whatwg.org/#absolute-url-string).
 
@@ -108,8 +108,8 @@ await got('https://httpbin.org/anything');
 
 ### `method`
 
-Type: `string`\
-Default: `GET`
+**Type: `string`**\
+**Default: `GET`**
 
 The [HTTP method](https://datatracker.ietf.org/doc/html/rfc7231#section-4) used to make the request.\
 The most common methods are: `GET`, `HEAD`, `POST`, `PUT`, `DELETE`.
@@ -125,8 +125,8 @@ console.log(method);
 
 ### `headers`
 
-Type: `object<string, string>`\
-Default: `{}`
+**Type: `object<string, string>`**\
+**Default: `{}`**
 
 The [HTTP headers](https://datatracker.ietf.org/doc/html/rfc7231#section-8.3) to be sent.
 
@@ -146,8 +146,8 @@ console.log(method);
 
 ### `isStream`
 
-Type: `boolean`\
-Default: `false`
+**Type: `boolean`**\
+**Default: `false`**
 
 Whether the request should return a [`Request` duplex stream](streams.md) or a [`Promise<Response>`](promise.md).
 
@@ -166,7 +166,7 @@ stream.on('data', console.log);
 
 ### `body`
 
-Type: `string | Buffer | stream.Readable` or [`form-data` instance](https://github.com/form-data/form-data)
+**Type: `string | Buffer | stream.Readable` or [`form-data` instance](https://github.com/form-data/form-data)**
 
 The payload to send.
 
@@ -196,7 +196,7 @@ console.log(data);
 
 ### `json`
 
-Type: JSON-serializable values
+**Type: JSON-serializable values**
 
 JSON body. If set, the `content-type` header defaults to `application/json`.
 
@@ -215,7 +215,7 @@ console.log(data);
 
 ### `form`
 
-Type: <code>object&lt;string, [Primitve](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)&gt;</code>
+**Type: <code>object&lt;string, [Primitve](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)&gt;</code>**
 
 The form body is converted to a query string using `(new URLSearchParams(form)).toString()`.
 
@@ -236,8 +236,8 @@ console.log(data);
 
 ### `parseJson`
 
-Type: `(text: string) => unknown`\
-Default: `(text: string) => JSON.parse(text)`
+**Type: `(text: string) => unknown`**\
+**Default: `(text: string) => JSON.parse(text)`**
 
 The function used to parse JSON responses.
 
@@ -255,8 +255,8 @@ console.log(parsed);
 
 ### `stringifyJson`
 
-Type: `(object: unknown) => string`\
-Default: `(object: unknown) => JSON.stringify(object)`
+**Type: `(object: unknown) => string`**\
+**Default: `(object: unknown) => JSON.stringify(object)`**
 
 The function used to stringify the body of JSON requests.
 
@@ -302,8 +302,8 @@ await got.post('https://example.com', {
 
 ### `allowGetBody`
 
-Type: `boolean`\
-Default: `false`
+**Type: `boolean`**\
+**Default: `false`**
 
 Set this to `true` to allow sending body for the `GET` method.
 
@@ -321,7 +321,7 @@ Therefore this option has no effect when using HTTP/2.
 
 ### `timeout`
 
-Type: `object`
+**Type: `object`**
 
 See the [Timeout API](timeout.md).
 
@@ -330,7 +330,7 @@ See the [Timeout API](timeout.md).
 
 ### `retry`
 
-Type: `object`
+**Type: `object`**
 
 See the [Retry API](retry.md).
 
@@ -339,8 +339,8 @@ See the [Retry API](retry.md).
 
 ### `encoding`
 
-Type: `string`\
-Default: `utf8`
+**Type: `string`**\
+**Default: `'utf8'`**
 
 [Encoding](https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings) to be used on [`setEncoding`](https://nodejs.org/api/stream.html#stream_readable_setencoding_encoding) of the response data.
 
@@ -371,8 +371,8 @@ stream.on('data', console.log);
 
 ### `responseType`
 
-Type: `'text' | 'json' | 'buffer'`\
-Default: `'text'`
+**Type: `'text' | 'json' | 'buffer'`**\
+**Default: `'text'`**
 
 The parsing method.
 
@@ -401,8 +401,8 @@ const [response, buffer, json] = await Promise.all([responsePromise, bufferPromi
 
 ### `resolveBodyOnly`
 
-Type: `boolean`\
-Default: `false`
+**Type: `boolean`**\
+**Default: `false`**
 
 If `true`, the promise will return the [Response body](#) instead of the [Response object](#).
 
@@ -420,8 +420,8 @@ const body = await got(url, {responseType: 'json', resolveBodyOnly: true});
 
 ### `context`
 
-Type: `object<string, unknown>`\
-Default: `{}`
+**Type: `object<string, unknown>`**\
+**Default: `{}`**
 
 Contains user data. It's very useful for storing auth tokens:
 
@@ -479,10 +479,10 @@ console.log(instance.defaults.options.context);
 
 ### `cookieJar`
 
-Type: <code>object | [tough.cookieJar](https://github.com/salesforce/tough-cookie#cookiejar)</code>
+**Type: <code>object | [tough.cookieJar](https://github.com/salesforce/tough-cookie#cookiejar)</code>**
 
-**Note:**
-- Setting this option will result in the `cookie` header being overwritten.
+#### **Note:**
+> - Setting this option will result in the `cookie` header being overwritten.
 
 Cookie support. Handles parsing and storing automatically.
 
@@ -500,20 +500,20 @@ await got('https://example.com', {cookieJar});
 
 #### `cookieJar.setCookie`
 
-Type: `(rawCookie: string, url: string) => void | Promise<void>`
+**Type: `(rawCookie: string, url: string) => void | Promise<void>`**
 
 See [ToughCookie API](https://github.com/salesforce/tough-cookie#setcookiecookieorstring-currenturl-options-cberrcookie) for more information.
 
 #### `cookieJar.getCookieString`
 
-Type: `(currentUrl: string) => string | Promise<string>`
+**Type: `(currentUrl: string) => string | Promise<string>`**
 
 See [ToughCookie API](https://github.com/salesforce/tough-cookie#getcookiestring) for more information.
 
 ### `ignoreInvalidCookies`
 
-Type: `boolean`\
-Default: `false`
+**Type: `boolean`**\
+**Default: `false`**
 
 Ignore invalid cookies instead of throwing an error.\
 Only useful when the cookieJar option has been set.
@@ -523,8 +523,8 @@ Only useful when the cookieJar option has been set.
 
 ### `followRedirect`
 
-Type: `boolean`\
-Default: `true`
+**Type: `boolean`**\
+**Default: `true`**
 
 Defines if redirect responses should be followed automatically.
 
