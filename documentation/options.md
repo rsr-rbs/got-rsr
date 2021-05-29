@@ -55,7 +55,7 @@ console.log(headers.Foo);
 ```
 
 Note that the constructor throws when an invalid option is provided, such as non-existing option or a typo.\
-In the second example, it's going to throw only when the promise is being executed.
+In the second example, it would throw only when the promise is being executed.
 
 For TypeScript users, `got` exports a dedicated type called `OptionsInit`.\
 It is a plain object that can store the same properties as `Options`.
