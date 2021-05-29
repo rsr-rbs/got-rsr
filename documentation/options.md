@@ -4,17 +4,17 @@
 
 Source code: [`source/core/options.ts`](../source/core/options.ts)
 
-Like `fetch` contains the options in a `Request` instance, Got does so in `Options`.\
+Like `fetch` stores the options in a `Request` instance, Got does so in `Options`.\
 It is made of getters and setters that provide fast option normalization and validation.
 
 #### Merge behavior explained
 
-When an option is already set, setting it again will replace it with a deep clone by default.\
+When an option is already set, setting it again replaces it with a deep clone by default.\
 Otherwise the merge behavior is documented in the correspoding section for the option.
 
 #### How to store options
 
-Got exports an `Options` class. Instead of calling `got`, just call `new Options(…)` with the same arguments.
+The constructor - `new Options(url, options, defaults)` - takes the same arguments like the `got` function.
 
 ```js
 import got, {Options} from 'got';
@@ -22,15 +22,46 @@ import got, {Options} from 'got';
 const options = new Options({
 	prefixUrl: 'https://httpbin.org',
 	headers: {
-		foo: 'bar'
+		foo: 'foo'
 	}
 });
+
+options.headers.foo = 'bar';
 
 // Note that `Options` stores normalized options, therefore it needs to be passed as the third argument.
 const {headers} = await got('anything', undefined, options).json();
 console.log(headers.Foo);
 //=> 'bar'
 ```
+
+If a plain object is preferred, it can be used in the following way:
+
+```js
+import got from 'got';
+
+const options = {
+	prefixUrl: 'https://httpbin.org',
+	headers: {
+		foo: 'bar'
+	}
+};
+
+options.headers.foo = 'bar';
+
+// Note that `options` is a plain object, therefore it needs to be passed as the second argument.
+const {headers} = await got('anything', options).json();
+console.log(headers.Foo);
+//=> 'bar'
+```
+
+Note that the constructor throws when an invalid option is provided, such as non-existing option or a typo.\
+In the second example, it's going to throw only when the promise is being executed.
+
+For TypeScript users, `got` exports a dedicated type called `OptionsInit`.\
+It is a plain object that can store the same properties as `Options`.
+
+Performance-wise there is no difference which one is used, although the construtor may be prefferred as it automatically validates the data.\
+It is useful for storing the base configuration of a custom Got client.
 
 ### `url`
 
@@ -46,6 +77,11 @@ await got('https://httpbin.org/anything');
 
 // is semantically the same as this:
 await got(new URL('https://httpbin.org/anything'));
+
+// as well as this:
+await got({
+	url: 'https://httpbin.org/anything'
+});
 ```
 
 #### **Note:**
