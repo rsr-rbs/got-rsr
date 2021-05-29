@@ -260,7 +260,7 @@ console.log(parsed);
 
 The function used to stringify the body of JSON requests.
 
-**Example: ignore properties starting with `_`**
+**Example: ignore all properties starting with an underscore**
 
 ```js
 import got from 'got';
@@ -553,7 +553,14 @@ If exceeded, the request will be aborted and a `MaxRedirectsError` will be throw
 ```js
 import got from 'got';
 
-const instance = got.extend({maxRedirect: 3});
+const instance = got.extend({maxRedirects: 3});
+
+try {
+	await instance('https://nghttp2.org/httpbin/absolute-redirect/5');
+} catch (error) {
+	//=> 'Redirected 3 times. Aborting.'
+	console.log(error.message);
+}
 ```
 
 ### `decompress`
@@ -569,4 +576,5 @@ import got from 'got';
 const response = await got('https://google.com');
 
 console.log(response.headers['content-encoding']);
+//=> 'gzip'
 ```
