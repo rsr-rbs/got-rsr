@@ -9,7 +9,7 @@ It is made of getters and setters that provide fast option normalization and val
 
 #### Merge behavior explained
 
-When an option is already set, setting it again will override it entirely by default.\
+When an option is already set, setting it again will replace it with a deep clone by default.\
 Otherwise the merge behavior is documented in the correspoding section for the option.
 
 ### `url`
