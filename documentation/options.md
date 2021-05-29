@@ -69,14 +69,14 @@ console.log(searchParams.toString());
 //=> 'key=a&key=b'
 ```
 
-> **Note:**
+#### **Note:**
 > - This will override the `query` string in `url`.
 
-> **Note:**
+#### **Note:**
 > - Leading slashes are disallowed to enforce consistency and avoid confusion.\
 >  For example, when the prefix URL is `https://example.com/foo` and the input is `/bar`, there's ambiguity whether the resulting URL would become `https://example.com/foo/bar` or `https://example.com/bar`. The latter is used by browsers.
 
-> **Merge behavior:**
+#### **Merge behavior:**
 > - Overrides existing properties.
 
 ### `prefixUrl`
@@ -97,13 +97,13 @@ await instance('anything');
 await got('https://httpbin.org/anything');
 ```
 
-> **Note:**
+#### **Note:**
 > - `prefixUrl` is ignored when `url` is an instance of [`URL`](https://nodejs.org/api/url.html#url_the_whatwg_url_api).
 
-> **Note:**
+#### **Note:**
 > - Changing `prefixUrl` also updates the `url` option if set.
 
-> **Note:**
+#### **Note:**
 > - If you're passing an absolute URL as string `url`, you need to set `prefixUrl` to an empty string.
 
 ### `method`
@@ -141,7 +141,7 @@ console.log(method);
 // => {hello: 'world'}
 ```
 
-> **Merge behavior:**
+#### **Merge behavior:**
 > - Overrides existing properties.
 
 ### `isStream`
@@ -185,13 +185,13 @@ console.log(data);
 //=> 'Hello, world!'
 ```
 
-> **Note:**
+#### **Note:**
 > - If `body` is specified, then the `json` or `form` option cannot be used.
 
-> **Note:**
+#### **Note:**
 > - If you use this option, `got.stream()` will be read-only.
 
-> **Note:**
+#### **Note:**
 > - Passing `body` with `GET` will throw unless the [`allowGetBody` option](#allowGetBody) is set to `true`.
 
 ### `json`
@@ -313,10 +313,10 @@ However, the [HTTP/2 specification](https://datatracker.ietf.org/doc/html/rfc754
 
 Therefore this option has no effect when using HTTP/2.
 
-> **Note:**
+#### **Note:**
 > - This option is only meant to interact with non-compliant servers when you have no other choice.
 
-> **Note:**
+#### **Note:**
 > - The [RFC 7321](https://tools.ietf.org/html/rfc7231#section-4.3.1) doesn't specify any particular behavior for the GET method having a payload, therefore it's considered an [**anti-pattern**](https://en.wikipedia.org/wiki/Anti-pattern).
 
 ### `timeout`
@@ -325,7 +325,7 @@ Type: `object`
 
 See the [Timeout API](timeout.md).
 
-> **Merge behavior:**
+#### **Merge behavior:**
 > - Overrides existing properties.
 
 ### `retry`
@@ -334,7 +334,7 @@ Type: `object`
 
 See the [Retry API](retry.md).
 
-> **Merge behavior:**
+#### **Merge behavior:**
 > - Overrides existing properties.
 
 ### `encoding`
@@ -357,7 +357,7 @@ console.log(response);
 //=> base64 string
 ```
 
-> **Note:**
+#### **Note:**
 > - This option does not affect streams! Instead, do:
 
 ```js
@@ -392,10 +392,10 @@ const [response, buffer, json] = await Promise.all([responsePromise, bufferPromi
 // `json` is an object
 ```
 
-> **Note:**
+#### **Note:**
 > - When using streams, this option is ignored.
 
-> **Note:**
+#### **Note:**
 > - `'buffer'` will return the raw body buffer. Any modifications will also alter the result of `.text()` and `.json()`. Before overwriting the buffer, please copy it first via `Buffer.from(buffer)`.\
 >  See https://github.com/nodejs/node/issues/27080
 
@@ -474,7 +474,7 @@ console.log(instance.defaults.options.context);
 //=> {}
 ```
 
-> **Merge behavior:**
+#### **Merge behavior:**
 > - Overrides existing properties.
 
 ### `cookieJar`
@@ -518,7 +518,7 @@ Default: `false`
 Ignore invalid cookies instead of throwing an error.\
 Only useful when the cookieJar option has been set.
 
-> **Note:**
+#### **Note:**
 > - This is not recommended! Use at your own risk.
 
 ### `followRedirect`
@@ -528,7 +528,7 @@ Default: `true`
 
 Defines if redirect responses should be followed automatically.
 
-> **Note:**
+#### **Note:**
 > - If a `303` is sent by the server in response to any request type (POST, DELETE, etc.), Got will automatically request the resource pointed to in the location header via GET.\
 >  This is in accordance with [the spec](https://tools.ietf.org/html/rfc7231#section-6.4.4).
 
