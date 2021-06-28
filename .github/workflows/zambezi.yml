@@ -1,0 +1,80 @@
+# This file is a template, and might need editing before it works on your project.
+image: node:latest
+
+stages:
+  - publish
+
+deploy:
+  stage: publish
+  only:
+    - master
+  when: manual
+  before_script:
+    - pwd
+    - mkdir -p ~/.ssh/
+    - cp $DEPLOY_PRIVATE_KEY ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $CI_SERVER_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - git config --global user.email ${GITLAB_USER_EMAIL}
+    - git config --global user.name ${GITLAB_USER_NAME}
+    - git checkout -B "$CI_COMMIT_REF_NAME"; ls -la
+    - git branch
+  
+  script:
+    # If no .npmrc if included in the repo, generate a temporary one that is configured to publish to GitLab's NPM registry4
+    - |
+      if [[ ! -f .npmrc ]]; then
+        echo 'No .npmrc found! Creating one now. Please review the following link for more information: https://docs.gitlab.com/ee/user/packages/npm_registry/index.html#project-level-npm-endpoint-1'
+        {
+          echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/"
+          echo "${CI_API_V4_URL#http*:}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}"
+        } >> .npmrc
+      fi
+    - echo "Created the following .npmrc:"; cat .npmrc
+
+    # Extract a few values from package.json
+    - NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
+    - NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
+     # Validate that the package name is properly scoped to the project's root namespace.
+    # For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#package-naming-convention
+    - |
+      if [[ ! $NPM_PACKAGE_NAME =~ ^@$CI_PROJECT_ROOT_NAMESPACE/ ]]; then
+        echo "Invalid package scope! Packages must be scoped in the root namespace of the project, e.g. \"@${CI_PROJECT_ROOT_NAMESPACE}/${CI_PROJECT_NAME}\""
+        echo 'For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#package-naming-convention'
+        exit 1
+      fi
+      # Compare the version in package.json to all published versions.
+
+    # npm install to install the node module
+    - npm install -D ez-build
+
+    # npm run build to build the artifacts, like minifiying it 
+    - npm run build
+
+    # Test - do unit test
+    - npm run ci-test
+    
+    # check npm version
+    - npm version patch -m "release by $GITLAB_USER_EMAIL" --force
+
+    # git push origins
+    - git branch
+    - git remote show origin
+    - git remote set-url --push origin git@$CI_SERVER_HOST:$CI_PROJECT_PATH
+    - git remote show origin
+    - git push --follow-tags origin HEAD:$CI_COMMIT_REF_NAME
+    
+    # git push tags , its required to regenrated the builds and for managing source properly
+    #- git push --tags
+    
+    # create .npmignore file if its not created already
+    
+    # If the package.json version has not yet been published, run `npm publish`.
+    - |
+      if [[ $(npm view "${NPM_PACKAGE_NAME}" versions) != *"'${NPM_PACKAGE_VERSION}'"* ]]; then
+        npm publish
+        echo "Successfully published version ${NPM_PACKAGE_VERSION} of ${NPM_PACKAGE_NAME} to GitLab's NPM registry: ${CI_PROJECT_URL}/-/packages"
+      else
+        echo "Version ${NPM_PACKAGE_VERSION} of ${NPM_PACKAGE_NAME} has already been published, so no new version has been published."
+      fi
