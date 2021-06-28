@@ -1,11 +1,14 @@
 # This file is a template, and might need editing before it works on your project.
-image: node:latest
+name: publish
 
-stages:
-  - publish
+on:
+  push:
+    branches:
+    - '*'
 
-deploy:
-  stage: publish
-  only:
-    - master
-  when: manual
+jobs:
+  build:
+    runs-on: node:latest
+    
+    steps:
+    - uses: actions/checkout
